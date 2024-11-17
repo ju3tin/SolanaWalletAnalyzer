@@ -1,0 +1,44 @@
+.container {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .wallet-input {
+    margin: 2rem auto;
+  }
+  
+  .input-box {
+    width: 80%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .analyze-btn {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .insights-container {
+    margin-top: 2rem;
+    text-align: left;
+  }
+  
+  .nft-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nft-item {
+    margin: 1rem;
+    text-align: center;
+  }
+  
+  .nft-item img {
+    max-width: 100px;
+    border-radius: 8px;
+  }

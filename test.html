@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World Solana DApp</title>
+</head>
+<body>
+    <h1>Hello World Solana DApp</h1>
+    <button id="say-hello-btn">Say Hello</button>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.31.0/dist/web3.min.js"></script>
+    <script>
+        const { Connection, PublicKey, clusterApiUrl, Keypair, Transaction, SystemProgram } = solanaWeb3;
+
+        const network = clusterApiUrl('devnet');
+        const connection = new Connection(network, 'confirmed');
+        const programId = new PublicKey('E7snTwCf4eirZprCBPLEJbMGnZYXAuN4kmz3DBThSBfR'); // Replace with your program ID
+        const wallet = Keypair.generate(); // In a real application, this would be your wallet
+
+        const sayHelloBtn = document.getElementById('say-hello-btn');
+        sayHelloBtn.onclick = async () => {
+            try {
+                const transaction = new Transaction().add(
+                    SystemProgram.transfer({
+                        fromPubkey: wallet.publicKey,
+                        toPubkey: programId,
+                        lamports: 1000000000,
+                    })
+                );
+
+                const signature = await connection.sendTransaction(transaction, [wallet]);
+                console.log('Transaction signature', signature);
+            } catch (err) {
+                console.error('Transaction failed', err);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Hello World DApp</title>
+</head>
+<body>
+    <h1>Solana Hello World DApp</h1>
+    <button id="say-hello-btn">Say Hello</button>
+    
+    <!-- Solana Web3.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.31.0/dist/web3.min.js"></script>
+
+    <script>
+        // Initialize Solana Web3
+        const { Connection, PublicKey, clusterApiUrl, Keypair, Transaction, SystemProgram } = solanaWeb3;
+
+        const network = clusterApiUrl('devnet');
+        const connection = new Connection(network, 'confirmed');
+
+        const programId = new PublicKey('E7snTwCf4eirZprCBPLEJbMGnZYXAuN4kmz3DBThSBfR'); // Replace with actual program ID
+        const wallet = Keypair.generate(); // Replace with wallet integration (e.g., Phantom)
+
+        const sayHelloBtn = document.getElementById('say-hello-btn');
+        sayHelloBtn.onclick = async () => {
+            try {
+                const transaction = new Transaction().add(
+                    SystemProgram.transfer({
+                        fromPubkey: wallet.publicKey,
+                        toPubkey: programId,
+                        lamports: 1000000000, // Transfer amount in lamports
+                    })
+                );
+
+                const signature = await connection.sendTransaction(transaction, [wallet]);
+                console.log('Transaction signature', signature);
+
+                // Optionally confirm the transaction
+                await connection.confirmTransaction(signature);
+                console.log('Transaction confirmed');
+            } catch (err) {
+                console.error('Transaction failed', err);
+            }
+        };
+
+        // Phantom wallet detection
+        if (window.solana && window.solana.isPhantom) {
+            window.solana.connect().then(() => {
+                console.log('Connected to Phantom wallet');
+            }).catch(err => {
+                console.error('Failed to connect to Phantom wallet', err);
+            });
+        } else {
+            alert('Please install Phantom Wallet');
+        }
+    </script>
+</body>
+</html>
